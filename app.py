@@ -196,29 +196,7 @@ def getAskResturantNameMessage(person_name, user_context):
              "payload": {
                  "platform": "kommunicate",
                  "message": "",
-                 "ignoreTextResponse": False,
-                 "metadata": {
-                     "templateId": "6",
-                     "payload": [
-                         {
-                             "message": "Manager",
-                             "title": "Manager"
-                         },
-                         {
-                             "title": "Owner",
-                             "message": "Owner"
-                         },
-                         {
-                             "message": "Staff",
-                             "title": "Staff"
-                         },
-                         {
-                             "title": "Other",
-                             "message": "Other"
-                         }
-                     ],
-                     "contentType": "300"
-                 }
+                 "ignoreTextResponse": False
              }
          }
      ],
