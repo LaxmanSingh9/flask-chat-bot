@@ -30,8 +30,8 @@ def webhook_1():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.get_json()
-    log_file = open('app.log', 'a')
-    sys.stdout = log_file
+    # log_file = open('app.log', 'a')
+    # sys.stdout = log_file
     print(data)
     resp = ''
     if data['queryResult']['intent']['displayName'] == 'askThanks - yes':
@@ -53,7 +53,7 @@ def webhook():
 
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 
-    log_file.flush()
+    # log_file.flush()
     return response
 
 
