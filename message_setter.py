@@ -258,4 +258,52 @@ def getRespOfDefaultContext(user_context: dict):
         "outputContexts": user_context
      }
     return response
+
+
+def getRespOfAskCuisine(resturant_name: str, user_context: dict):
+    msg = f"Thank you, Can you please let us know the type of cuisine that {resturant_name} offers?"
+    response = {
+        "fulfillmentMessages": [
+         {
+             "text": {
+                 "text": [msg]
+             }
+         },
+         {
+            "payload": {
+                    "platform": "kommunicate",
+                    "message": "",
+                    "ignoreTextResponse": False,
+                    "metadata": {
+                       "templateId": "6",
+                       "payload": [
+                               {
+                                 "title": "American",
+                                 "message": "American",
+                                 "color": "#FF0000"
+                               },
+                               {
+                                 "title": "Mexican",
+                                 "color": "#00FF00",
+                                 "message": "Mexican"
+                               },
+                               {
+                                 "title": "Italian",
+                                 "color": "#0000FF",
+                                 "message": "Italian"
+                               },
+                               {
+                                 "message": "Other",
+                                 "title": "Other",
+                                 "color": "#FFA500"
+                               }
+                         ],
+                       "contentType": "300"
+                    },
+                }
+         }
+        ],
+        "outputContexts": user_context
+     }
+    return response
  

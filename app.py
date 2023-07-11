@@ -60,6 +60,9 @@ def webhook():
         
     if data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
         resp = context_setter.setContextDefault(data)
+    
+    if data['queryResult']['intent']['displayName'] == 'askCuisine':
+        resp = context_setter.setContextAskCuisine(data)
 
     if isinstance(resp, str):
         response = make_response(resp)

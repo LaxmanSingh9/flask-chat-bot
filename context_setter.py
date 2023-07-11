@@ -136,3 +136,25 @@ def setContextDefault(data: dict):
     except KeyError:
         print('Error while updating the context variables')
     return jsonify(resp)
+
+
+def setContextAskCuisine(data: dict):
+    print("Active Intent: askCuisine")
+    resp = "Error"
+    try:
+        user_context = data["queryResult"]["outputContexts"]
+        resturant_name = ''
+        print("INSIDE1")
+        for i, context in enumerate(user_context):
+            if 'session_data' in context['name']:
+                print("INSIDE2")
+                street_address = user_context[i]['parameters']['any.original']
+                resturant_name = user_context[i]['parameters']['resturant-name']
+                user_context[i]['parameters']['street-address'] = street_address
+        print("user_context", user_context)
+        resp = message_setter.getRespOfAskCuisine(resturant_name, user_context)
+
+    except KeyError:
+        print('Error while updating the context variables')
+
+    return jsonify(resp)
