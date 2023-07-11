@@ -184,21 +184,47 @@ def setContextVariableAskResturantName(data: dict):
 
 
 def getAskResturantNameMessage(person_name, user_context):
-    msg = f"Hello, {person_name}, and welcome to MealTicket. Can you provide us with the name of your restaurant?"
-    print(msg)
-    response = {
-        "fulfillmentText": "This is a response from the webhook.",
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": [msg]
-                }
-            }
-         ],
-        "outputContexts": user_context
-      }
-    print(jsonify(response))   
-    return jsonify(response)
+     msg = f"Hello, {person_name}, and welcome to MealTicket. Can you provide us with the name of your restaurant?"
+     response = {
+     "fulfillmentMessages": [
+         {
+             "text": {
+                 "text": [msg]
+             }
+         },
+         {
+             "payload": {
+                 "platform": "kommunicate",
+                 "message": "",
+                 "ignoreTextResponse": False,
+                 "metadata": {
+                     "templateId": "6",
+                     "payload": [
+                         {
+                             "message": "Manager",
+                             "title": "Manager"
+                         },
+                         {
+                             "title": "Owner",
+                             "message": "Owner"
+                         },
+                         {
+                             "message": "Staff",
+                             "title": "Staff"
+                         },
+                         {
+                             "title": "Other",
+                             "message": "Other"
+                         }
+                     ],
+                     "contentType": "300"
+                 }
+             }
+         }
+     ],
+     "outputContexts": user_context
+     }
+     return response
 def getRespOfAskRoles(rest_name: str, user_context: dict):
      msg =f"Thanks, we got you, please tell us about your role at {rest_name}"
      response = {
