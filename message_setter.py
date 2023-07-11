@@ -181,4 +181,45 @@ def getRespOfAskCityName(resturant_name: str, user_context: dict):
         "outputContexts": user_context
      }
     return response
+
+
+def getRespOfAskAppFee(app_names: str, user_context: dict):
+    print(app_names)
+    msg = "Can you please provide us with an idea of the fees associated with each app??"
+    response = {
+        "fulfillmentMessages": [
+         {
+             "text": {
+                 "text": [msg]
+             }
+         },
+         {
+            "payload": {
+                    "platform": "kommunicate",
+                    "message": "",
+                    "ignoreTextResponse": False,
+                    "metadata": {
+                       "templateId": "6",
+                       "payload": [
+                            {
+                             "title": "above 1000 $",
+                             "message": "above 1000 $"
+                            },
+                            {
+                               "title": "above 2000 $",
+                               "message": "above 2000 $"
+                            },
+                            {
+                               "title": "above 3000 $",
+                               "message": "above 3000 $"
+                            }
+                         ],
+                       "contentType": "300"
+                    },
+                }
+         }
+        ],
+        "outputContexts": user_context
+     }
+    return response
  

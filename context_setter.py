@@ -104,3 +104,24 @@ def setContextVariableAskCityName(data: dict):
         print('Error while updating the context variables')
 
     return jsonify(resp)
+
+
+def setContextVariableAskAppFee(data: dict):
+    print("Active Intent: askAppFee")
+    resp = "Error"
+    try:
+        user_context = data["queryResult"]["outputContexts"]
+        app_names = ''
+        print("INSIDE1")
+        for i, context in enumerate(user_context):
+            if 'session_data' in context['name']:
+                print("INSIDE2")
+                app_names = user_context[i]['parameters']['any.original']
+                user_context[i]['parameters']['app-names'] = app_names
+        print("user_context", user_context)
+        resp = message_setter.getRespOfAskAppFee(app_names, user_context)
+
+    except KeyError:
+        print('Error while updating the context variables')
+
+    return jsonify(resp)

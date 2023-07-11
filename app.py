@@ -54,6 +54,9 @@ def webhook():
 
     if data['queryResult']['intent']['displayName'] == 'askEquimentType':
         resp = context_setter.setContextVariableEquimentType(data)
+    
+    if data['queryResult']['intent']['displayName'] == 'askAppFee':
+        resp = context_setter.setContextVariableAskAppFee()
 
     if isinstance(resp, str):
         response = make_response(resp)
