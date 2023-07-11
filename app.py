@@ -3,6 +3,9 @@ import firebase_admin
 from firebase_admin import credentials, db
 import datetime
 import sys
+import context_setter
+import message_setter
+
 #import os
 # import uuid
 # import base64
@@ -35,19 +38,22 @@ def webhook():
     print(data)
     resp = ''
     if data['queryResult']['intent']['displayName'] == 'askThanks - yes':
-       resp  = storeDataIntoDB(data);
-
-    if data['queryResult']['intent']['displayName'] == 'Welcome':
-       resp  = setWelcomeMessage();
-    
+        resp = storeDataIntoDB(data)
+       
     if data['queryResult']['intent']['displayName'] == 'askResturantName':
-       resp  = setContextVariableAskResturantName(data)
-      
+        resp = context_setter.setContextVariableAskResturantName(data)
+     
+    if data['queryResult']['intent']['displayName'] == 'Welcome':
+        resp = message_setter.setWelcomeMessage()
+
     if data['queryResult']['intent']['displayName'] == 'askRoles':
-       resp = setContextVariable(data);
+        resp = context_setter.setContextVariableRoles(data)
+        
+    if data['queryResult']['intent']['displayName'] == 'askCityName':
+        resp = context_setter.setContextVariableAskCityName(data)
 
     if data['queryResult']['intent']['displayName'] == 'askEquimentType':
-       resp = setContextVariableEquimentType(data)
+        resp = context_setter.setContextVariableEquimentType(data)
 
     if isinstance(resp, str):
         response = make_response(resp)
@@ -58,8 +64,6 @@ def webhook():
 
     # log_file.flush()
     return response
-
-
 
 
 def storeDataIntoDB(data: dict):
@@ -81,215 +85,6 @@ def storeDataIntoDB(data: dict):
          print('Error while storing or getting the data')
       return status + "in storing data"
 
-def setWelcomeMessage():
-     msg = "Hi there! Please tell us your name."
-     response = {
-     "fulfillmentMessages": [
-         {
-             "text": {
-                 "text": [msg]
-             }
-         },
-         {
-             "payload": {
-                 "platform": "kommunicate",
-                 "message": "",
-                 "ignoreTextResponse": False
-             }
-         }
-       ]
-     }
-     return jsonify(response)
-
-def setContextVariable(data:dict):
-        print("Active Intent: askRoles")
-        rest_name = ''
-        resp = "Error"
-        try:
-          user_context = data["queryResult"]["outputContexts"]
-          print("INSIDE1")
-          for context in user_context:
-            if 'session_data' in context['name']:
-                print("INSIDE2")
-                # Check if the payload contains the form data
-                if 'originalDetectIntentRequest' in data and 'payload' in data['originalDetectIntentRequest']:
-                    # Get the form data
-                    form_data = data['originalDetectIntentRequest']['payload']
-
-                     # Update the context variables if the form data fields exist in the payload
-                    if 'name' in form_data:
-                        context['parameters']['person'] = form_data['name']
-                        context['parameters']['person.original'] = form_data['name']
-                    if 'restaurant' in form_data:
-                        context['parameters']['any'] = form_data['restaurant']
-                        context['parameters']['any.original'] = form_data['restaurant']
-                        rest_name = form_data['restaurant']
-                    if 'city' in form_data:
-                        context['parameters']['geo-city'] = form_data['city']
-                        context['parameters']['geo-city.original'] = form_data['city']
-                    if 'street' in form_data:
-                        context['parameters']['street-address'] = form_data['street']
-                        context['parameters']['street-address.original'] = form_data['street']
-                    print("INSIDE4")
-                    # Now the context variables have been updated with the new values
-          resp = getRespOfAskRoles(rest_name, user_context)
-
-        except KeyError:
-           print('Error while updating the context variables')
-
-        return jsonify(resp)
-
-
-def setContextVariableEquimentType(data:dict):
-    print("Active Intent: askEquimentType")
-    resp = "Error"
-    try:
-        user_context = data["queryResult"]["outputContexts"]
-        person_name  = ''
-        print("INSIDE1")
-        for i, context in enumerate(user_context):
-            if 'session_data' in context['name']:
-                print("INSIDE2")
-                user_context[i]['parameters']['app-fee'] = data["queryResult"]["queryText"]
-                person_name = user_context[i]['parameters']['person.original']
-
-        print("user_context", user_context)
-        resp = getRespOfAskEquimentResp(person_name, user_context)
-
-    except KeyError:
-        print('Error while updating the context variables')
-
-    return jsonify(resp)
-
-def setContextVariableAskResturantName(data: dict):
-    print("Active Intent: askResturantName")
-    resp = "Error"
-    try:
-        user_context = data["queryResult"]["outputContexts"]
-        person_name = ''
-        print("INSIDE1")
-        for i, context in enumerate(user_context):
-            if 'session_data' in context['name']:
-                print("INSIDE2")
-                person_name = user_context[i]['parameters']['any.original']
-                user_context[i]['parameters']['person'] = person_name
-
-        print("user_context", user_context)
-        resp = getAskResturantNameMessage(person_name, user_context)
-
-    except KeyError:
-        print('Error while updating the context variables')
-
-    return jsonify(resp)
-
-
-def getAskResturantNameMessage(person_name, user_context):
-     msg = f"Hello, {person_name}, and welcome to MealTicket. Can you provide us with the name of your restaurant?"
-     response = {
-     "fulfillmentMessages": [
-         {
-             "text": {
-                 "text": [msg]
-             }
-         },
-         {
-             "payload": {
-                 "platform": "kommunicate",
-                 "message": "",
-                 "ignoreTextResponse": False
-             }
-         }
-     ],
-     "outputContexts": user_context
-     }
-     return response
-def getRespOfAskRoles(rest_name: str, user_context: dict):
-     msg =f"Thanks, we got you, please tell us about your role at {rest_name}"
-     response = {
-     "fulfillmentMessages": [
-         {
-             "text": {
-                 "text": [msg]
-             }
-         },
-         {
-             "payload": {
-                 "platform": "kommunicate",
-                 "message": "",
-                 "ignoreTextResponse": False,
-                 "metadata": {
-                     "templateId": "6",
-                     "payload": [
-                         {
-                             "message": "Manager",
-                             "title": "Manager"
-                         },
-                         {
-                             "title": "Owner",
-                             "message": "Owner"
-                         },
-                         {
-                             "message": "Staff",
-                             "title": "Staff"
-                         },
-                         {
-                             "title": "Other",
-                             "message": "Other"
-                         }
-                     ],
-                     "contentType": "300"
-                 }
-             }
-         }
-     ],
-     "outputContexts": user_context
-     }
-     return response
-
-
-def getRespOfAskEquimentResp(person_name:str, user_context: dict):
-     msg = f"Awesome {person_name}, what kind of equipment is integral to your business?"
-     response = {
-        "fulfillmentMessages": [
-         {
-             "text": {
-                 "text": [msg]
-             }
-         },
-         {
-            "payload":
-                {
-                    "platform": "kommunicate",
-                    "message": "",
-                    "ignoreTextResponse": False,
-                    "metadata": {
-                       "templateId": "6",
-                       "payload": [
-                            {
-                             "message": "Freezer",
-                             "title": "Freezer"
-                            },
-                            {
-                             "title": "Fryer",
-                             "message": "Fryer"
-                            },
-                            {
-                             "title": "Oven",
-                             "message": "Oven"
-                            },
-                            {
-                             "title": "More than one",
-                             "message": "More than one"
-                            }
-                         ],
-                       "contentType": "300"
-                    },
-               }
-         }
-        ],
-        "outputContexts": user_context
-     }
-     return response
 
 def refine_data(user_data, session_id):
     print(f'data to be refine: {user_data}')
@@ -307,14 +102,10 @@ def refine_data(user_data, session_id):
         "equipments": ", ".join(user_data.get("Equipment.original", "")),
         "extra_capacity": user_data.get("CapacityType", ""),
         "timestamp": str(datetime.datetime.now()),
-        "session_id":session_id
+        "session_id": session_id
     }
     print(f'data to push: {refine_user_data}')
     return refine_user_data
-
-
-
-
 
 
 if __name__ == '__main__':
