@@ -92,14 +92,14 @@ def storeDataIntoDB(data: dict):
 
 
 def storeDataIntoDBMySql(dic: dict):
-    cnx = mysql.connector.connect(
-       user='databricks',
-       password='databricks!',
-       host='20.2.81.247',
-       database='databricks'
-    )
-    cursor = cnx.cursor()
     try:
+        cnx = mysql.connector.connect(
+           user='databricks',
+           password='databricks',
+           host='20.2.81.247',
+           database='databricks'
+        )
+        cursor = cnx.cursor()
         # Define the insert query
         insert_query = ("INSERT INTO MealTicketUsers"
                                  "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments,dates, extra_capacity)"
