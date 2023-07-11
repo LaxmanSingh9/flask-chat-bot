@@ -90,20 +90,19 @@ def storeDataIntoDB(data: dict):
       return status + "in storing data"
 
 
-
 def storeDataIntoDBMySql(dic: dict):
     try:
         cnx = mysql.connector.connect(
-           user='databricks',
-           password='databricks',
-           host='20.2.81.247',
-           database='databricks'
+            user='databricks',
+            password='databricks',
+            host='20.2.81.247',
+            database='databricks'
         )
         cursor = cnx.cursor()
         # Define the insert query
         insert_query = ("INSERT INTO MealTicketUsers"
-                                 "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments,dates, extra_capacity)"
-                                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+                        "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity)"
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
         data = (dic.get("session_id", "1"), dic.get("person_name", ""), 
                 dic.get("person_role", ""), 
                 dic.get("restaurant_name", ""), 
@@ -111,15 +110,15 @@ def storeDataIntoDBMySql(dic: dict):
                 dic.get("street_address", ""),
                 dic.get("cuisine_types", ""),
                 dic.get("resource_idle", ""), dic.get("other_apps", ""),
-                dic.get("app_costing", ""), dic.get("equipments", ""),
-                dic.get("adding_sales_costing", ""),
+                dic.get("app_costing", ""), dic.get("adding_sales_costing", ""),
+                dic.get("equipments", ""),
                 dic.get("timestamp", ""),
                 dic.get("extra_capacity", ""))
         cursor.execute(insert_query, data)
         cnx.commit()
     except Exception as e:
-        print("Error while inserting data mysql:")
-    return "Data saved into DB" 
+        print("Error while inserting data mysql:", e)
+    return "Data saved into DB"
     
 
 def refine_data(user_data, session_id):
