@@ -56,7 +56,7 @@ def webhook():
         resp = context_setter.setContextVariableEquimentType(data)
     
     if data['queryResult']['intent']['displayName'] == 'askAppFee':
-        resp = context_setter.setContextVariableAskAppFee()
+        resp = context_setter.setContextVariableAskAppFee(data)
 
     if isinstance(resp, str):
         response = make_response(resp)
@@ -92,14 +92,14 @@ def storeDataIntoDB(data: dict):
 def refine_data(user_data, session_id):
     print(f'data to be refine: {user_data}')
     refine_user_data = {
-        "person_name": user_data.get("person.original", ""),
+        "person_name": user_data.get("person", ""),
         "person_role": user_data.get("Role.original", ""),
-        "restaurant_name": user_data.get("any.original", ""),
+        "restaurant_name": user_data.get("resturant-name", ""),
         "city": user_data.get("geo-city.original", ""),
         "street_address": user_data.get("street-address.original", ""),
         "cuisine_types": ", ".join(user_data.get("cuisine.original", "")),
         "resource_idle": user_data.get("ResourceIdleNess", ""),
-        "other_apps": ", ".join(user_data.get("OtherApp.original", "")),
+        "other_apps": ", ".join(user_data.get("app-names", "")),
         "app_costing": user_data.get("app-fee", ""),
         "adding_sales_costing": user_data.get("number.original", ""),
         "equipments": ", ".join(user_data.get("Equipment.original", "")),

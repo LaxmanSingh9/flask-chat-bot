@@ -185,7 +185,7 @@ def getRespOfAskCityName(resturant_name: str, user_context: dict):
 
 def getRespOfAskAppFee(app_names: str, user_context: dict):
     print(app_names)
-    msg = "Can you please provide us with an idea of the fees associated with each app??"
+    msg = "Can you please provide us with an idea of the fees associated with each apps?"
     response = {
         "fulfillmentMessages": [
          {

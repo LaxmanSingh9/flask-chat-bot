@@ -20,17 +20,13 @@ def setContextVariableRoles(data:dict):
                      # Update the context variables if the form data fields exist in the payload
                     if 'name' in form_data:
                         context['parameters']['person'] = form_data['name']
-                        context['parameters']['person.original'] = form_data['name']
                     if 'restaurant' in form_data:
-                        context['parameters']['any'] = form_data['restaurant']
-                        context['parameters']['any.original'] = form_data['restaurant']
+                        context['parameters']['resturant-name'] = form_data['restaurant']
                         rest_name = form_data['restaurant']
                     if 'city' in form_data:
                         context['parameters']['geo-city'] = form_data['city']
-                        context['parameters']['geo-city.original'] = form_data['city']
                     if 'street' in form_data:
                         context['parameters']['street-address'] = form_data['street']
-                        context['parameters']['street-address.original'] = form_data['street']
                     print("INSIDE4")
                     # Now the context variables have been updated with the new values
           resp = message_setter.getRespOfAskRoles(rest_name, user_context)
