@@ -39,7 +39,10 @@ def webhook():
 
     if data['queryResult']['intent']['displayName'] == 'Welcome':
        resp  = setWelcomeMessage();
-
+    
+    if data['queryResult']['intent']['displayName'] == 'askResturantName':
+       resp  = setContextVariableAskResturantName(data)
+      
     if data['queryResult']['intent']['displayName'] == 'askRoles':
        resp = setContextVariable(data);
 
@@ -158,7 +161,49 @@ def setContextVariableEquimentType(data:dict):
 
     return jsonify(resp)
 
+def setContextVariableAskResturantName(data: dict):
+    print("Active Intent: askResturantName")
+    resp = "Error"
+    try:
+        user_context = data["queryResult"]["outputContexts"]
+        person_name = ''
+        print("INSIDE1")
+        for i, context in enumerate(user_context):
+            if 'session_data' in context['name']:
+                print("INSIDE2")
+                person_name = user_context[i]['parameters']['any.original']
+                user_context[i]['parameters']['person'] = person_name
 
+        print("user_context", user_context)
+        resp = getAskResturantNameMessage(person_name, user_context)
+
+    except KeyError:
+        print('Error while updating the context variables')
+
+    return jsonify(resp)
+
+
+def getAskResturantNameMessage(person_name, user_context):
+    msg = f"Hello, {person_name}, and welcome to MealTicket. Can you provide us with the name of your restaurant?"
+    response = {
+       "fulfillmentMessages": [
+           {
+               "text": {
+                   "text": [msg]
+               }
+           },
+           {
+               "payload": {
+                   "platform": "kommunicate",
+                   "message": "",
+                   "ignoreTextResponse": False
+               }
+           }
+          ],
+        "outputContexts": user_context
+       }
+       
+    return jsonify(response)
 def getRespOfAskRoles(rest_name: str, user_context: dict):
      msg =f"Thanks, we got you, please tell us about your role at {rest_name}"
      response = {
