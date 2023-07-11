@@ -70,7 +70,7 @@ def setContextVariableEquimentType(data: dict):
             if 'session_data' in context['name']:
                 print("INSIDE2")
                 user_context[i]['parameters']['app-fee'] = data["queryResult"]["queryText"]
-                person_name = user_context[i]['parameters']['person.original']
+                person_name = user_context[i]['parameters']['person']
 
         print("user_context", user_context)
         resp = message_setter.getRespOfAskEquimentResp(person_name, user_context)
