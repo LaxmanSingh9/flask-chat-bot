@@ -121,3 +121,18 @@ def setContextVariableAskAppFee(data: dict):
         print('Error while updating the context variables')
 
     return jsonify(resp)
+
+
+def setContextDefault(data: dict):
+    print("Active Intent: Default Fallback")
+    resp = "Error"
+    try:
+        user_context = data["queryResult"]["outputContexts"]
+        if (len(user_context) <= 2):
+            resp = message_setter.getRespOfDefaultContext(user_context)
+        else:
+            print("Not suitable for quit condition")
+        print("user_context", user_context)    
+    except KeyError:
+        print('Error while updating the context variables')
+    return jsonify(resp)

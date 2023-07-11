@@ -57,6 +57,9 @@ def webhook():
     
     if data['queryResult']['intent']['displayName'] == 'askAppFee':
         resp = context_setter.setContextVariableAskAppFee(data)
+        
+    if data['queryResult']['intent']['displayName'] == '"Default Fallback Intent':
+        resp = context_setter.setContextDefault(data)
 
     if isinstance(resp, str):
         response = make_response(resp)

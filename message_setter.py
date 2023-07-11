@@ -222,4 +222,40 @@ def getRespOfAskAppFee(app_names: str, user_context: dict):
         "outputContexts": user_context
      }
     return response
+
+
+def getRespOfDefaultContext(user_context: dict):
+    msg = "HI, would you like to continue with us?"
+    response = {
+        "fulfillmentMessages": [
+         {
+             "text": {
+                 "text": [msg]
+             }
+         },
+         {
+            "payload": {
+                    "platform": "kommunicate",
+                    "message": "",
+                    "ignoreTextResponse": False,
+                    "metadata": {
+                       "templateId": "6",
+                       "payload": [
+                            {
+                             "title": "restart",
+                             "message": "restart"
+                            },
+                            {
+                               "title": "quit",
+                               "message": "quit"
+                            }
+                         ],
+                       "contentType": "300"
+                    },
+                }
+         }
+        ],
+        "outputContexts": user_context
+     }
+    return response
  
