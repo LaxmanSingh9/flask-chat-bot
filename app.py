@@ -187,22 +187,16 @@ def getAskResturantNameMessage(person_name, user_context):
     msg = f"Hello, {person_name}, and welcome to MealTicket. Can you provide us with the name of your restaurant?"
     print(msg)
     response = {
-       "fulfillmentMessages": [
-           {
-               "text": {
-                   "text": [msg]
-               }
-           },
-           {
-               "payload": {
-                   "platform": "kommunicate",
-                   "message": "",
-                   "ignoreTextResponse": False
-               }
-           }
-          ],
+        "fulfillmentText": "This is a response from the webhook.",
+        "fulfillmentMessages": [
+            {
+                "text": {
+                    "text": [msg]
+                }
+            }
+         ],
         "outputContexts": user_context
-       }
+      }
        
     return jsonify(response)
 def getRespOfAskRoles(rest_name: str, user_context: dict):
