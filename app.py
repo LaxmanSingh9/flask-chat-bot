@@ -197,7 +197,7 @@ def getAskResturantNameMessage(person_name, user_context):
          ],
         "outputContexts": user_context
       }
-       
+    print(jsonify(response))   
     return jsonify(response)
 def getRespOfAskRoles(rest_name: str, user_context: dict):
      msg =f"Thanks, we got you, please tell us about your role at {rest_name}"
