@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, make_response
 import firebase_admin
 from firebase_admin import credentials, db
 import datetime
-import sys
+import mysql.connector
 import context_setter
 import message_setter
 
@@ -83,11 +83,44 @@ def storeDataIntoDB(data: dict):
               print("Data to store", data_to_store)
               ref = db.reference('webhook_data')
               ref.push(data_to_store)
+              storeDataIntoDBMySql(data_to_store)
       except KeyError:
          status = "Error"
          print('Error while storing or getting the data')
       return status + "in storing data"
 
+
+
+def storeDataIntoDBMySql(dic: dict):
+    cnx = mysql.connector.connect(
+       user='databricks',
+       password='databricks!',
+       host='20.2.81.247',
+       database='databricks'
+    )
+    cursor = cnx.cursor()
+    try:
+        # Define the insert query
+        insert_query = ("INSERT INTO MealTicketUsers"
+                                 "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments,dates, extra_capacity)"
+                                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        data = (dic.get("session_id", "1"), dic.get("person_name", ""), 
+                dic.get("person_role", ""), 
+                dic.get("restaurant_name", ""), 
+                dic.get("city", ""), 
+                dic.get("street_address", ""),
+                dic.get("cuisine_types", ""),
+                dic.get("resource_idle", ""), dic.get("other_apps", ""),
+                dic.get("app_costing", ""), dic.get("equipments", ""),
+                dic.get("adding_sales_costing", ""),
+                dic.get("timestamp", ""),
+                dic.get("extra_capacity", ""))
+        cursor.execute(insert_query, data)
+        cnx.commit()
+    except Exception as e:
+        print("Error while inserting data mysql:")
+    return "Data saved into DB" 
+    
 
 def refine_data(user_data, session_id):
     print(f'data to be refine: {user_data}')
@@ -95,8 +128,8 @@ def refine_data(user_data, session_id):
         "person_name": user_data.get("person", ""),
         "person_role": user_data.get("Role.original", ""),
         "restaurant_name": user_data.get("resturant-name", ""),
-        "city": user_data.get("geo-city.original", ""),
-        "street_address": user_data.get("street-address.original", ""),
+        "city": user_data.get("geo-city", ""),
+        "street_address": user_data.get("street-address", ""),
         "cuisine_types": ", ".join(user_data.get("cuisine.original", "")),
         "resource_idle": user_data.get("ResourceIdleNess", ""),
         "other_apps": ", ".join(user_data.get("app-names", "")),
