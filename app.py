@@ -185,6 +185,7 @@ def setContextVariableAskResturantName(data: dict):
 
 def getAskResturantNameMessage(person_name, user_context):
     msg = f"Hello, {person_name}, and welcome to MealTicket. Can you provide us with the name of your restaurant?"
+    print(msg)
     response = {
        "fulfillmentMessages": [
            {
