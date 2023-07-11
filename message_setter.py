@@ -21,7 +21,7 @@ def getAskResturantNameMessage(person_name, user_context):
         "outputContexts": user_context
        }
        
-    return jsonify(response)
+    return response
 
 
 def getRespOfAskRoles(rest_name: str, user_context: dict):
