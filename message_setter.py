@@ -242,12 +242,12 @@ def getRespOfDefaultContext(user_context: dict):
                        "templateId": "6",
                        "payload": [
                             {
-                             "title": "restart",
-                             "message": "restart"
+                             "title": "Restart",
+                             "message": "Restart"
                             },
                             {
-                               "title": "quit",
-                               "message": "quit"
+                               "title": "Quit",
+                               "message": "Quit"
                             }
                          ],
                        "contentType": "300"
