@@ -225,7 +225,7 @@ def getRespOfAskAppFee(app_names: str, user_context: dict):
 
 
 def getRespOfDefaultContext(user_context: dict):
-    msg = "Sorry for any misunderstanding, would you like to continue with us?"
+    msg = "Sorry for any misunderstanding. Would you like to continue with us?"
     response = {
         "fulfillmentMessages": [
          {
