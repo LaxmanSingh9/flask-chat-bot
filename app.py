@@ -37,31 +37,34 @@ def webhook():
     # sys.stdout = log_file
     print(data)
     resp = ''
-    if data['queryResult']['intent']['displayName'] == 'askThanks - yes':
-        resp = storeDataIntoDB(data)
-       
-    if data['queryResult']['intent']['displayName'] == 'askResturantName':
-        resp = context_setter.setContextVariableAskResturantName(data)
-     
     if data['queryResult']['intent']['displayName'] == 'Welcome':
         resp = message_setter.setWelcomeMessage()
 
-    if data['queryResult']['intent']['displayName'] == 'askRoles':
+    elif ((data['queryResult']['intent']['displayName'] == 'askThanks - yes') 
+            or
+          (data['queryResult']['intent']['displayName'] == 'endOfConversation')
+          ):
+        resp = storeDataIntoDB(data)
+       
+    elif data['queryResult']['intent']['displayName'] == 'askResturantName':
+        resp = context_setter.setContextVariableAskResturantName(data)
+     
+    elif data['queryResult']['intent']['displayName'] == 'askRoles':
         resp = context_setter.setContextVariableRoles(data)
         
-    if data['queryResult']['intent']['displayName'] == 'askCityName':
+    elif data['queryResult']['intent']['displayName'] == 'askCityName':
         resp = context_setter.setContextVariableAskCityName(data)
 
-    if data['queryResult']['intent']['displayName'] == 'askEquimentType':
+    elif data['queryResult']['intent']['displayName'] == 'askEquimentType':
         resp = context_setter.setContextVariableEquimentType(data)
     
-    if data['queryResult']['intent']['displayName'] == 'askAppFee':
+    elif data['queryResult']['intent']['displayName'] == 'askAppFee':
         resp = context_setter.setContextVariableAskAppFee(data)
         
-    if data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
+    elif data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
         resp = context_setter.setContextDefault(data)
     
-    if data['queryResult']['intent']['displayName'] == 'askCuisine':
+    elif data['queryResult']['intent']['displayName'] == 'askCuisine':
         resp = context_setter.setContextAskCuisine(data)
 
     if isinstance(resp, str):
