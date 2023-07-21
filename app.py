@@ -102,17 +102,17 @@ def storeDataIntoDB(data: dict):
 def storeDataIntoDBMySql(dic: dict):
     try:
         cnx = mysql.connector.connect(
-            user='databricks',
-            password='databricks',
-            host='20.2.81.247',
-            database='databricks'
+            user='admin',
+            password='LpgKASCOqNsGpsFvY8Vh',
+            host='meal-ticket.cqycsjh1wnuy.us-east-1.rds.amazonaws.com',
+            database='MealTicket'
         )
         cursor = cnx.cursor()
         # Define the insert query
         insert_query = ("INSERT INTO MealTicketUsers"
                         "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity)"
                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-        data = (dic.get("session_id", "1"), dic.get("person_name", ""), 
+        data = (dic.get("session_id", "1"), dic.get("person_name", ""),
                 dic.get("person_role", ""), 
                 dic.get("restaurant_name", ""), 
                 dic.get("city", ""), 
