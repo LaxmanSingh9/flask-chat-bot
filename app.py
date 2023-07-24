@@ -44,6 +44,7 @@ def webhook():
             or
           (data['queryResult']['intent']['displayName'] == 'endOfConversation')
           ):
+        print("Active Intent: askThanks Inside If")
         resp = storeDataIntoDB(data)
        
     elif data['queryResult']['intent']['displayName'] == 'askResturantName':
@@ -79,7 +80,7 @@ def webhook():
 
 
 def storeDataIntoDB(data: dict):
-      print("Active Intent: askThanks - yes ")
+      print("Active Intent: askThanks ")
       session_id = data["session"]
       status = "Success"
       try:
@@ -100,6 +101,7 @@ def storeDataIntoDB(data: dict):
 
 
 def storeDataIntoDBMySql(dic: dict):
+    print("Inside Saving into MySql")
     try:
         cnx = mysql.connector.connect(
             user='admin',
