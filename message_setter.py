@@ -149,33 +149,61 @@ def getRespOfAskCityName(resturant_name: str, user_context: dict):
              }
          },
          {
-            "payload": {
-                    "platform": "kommunicate",
-                    "message": "",
-                    "ignoreTextResponse": False,
-                    "metadata": {
-                       "templateId": "6",
-                       "payload": [
-                            {
-                              "message": "Los Angeles",
-                              "title": "Los Angeles"
-                            },
-                            {
-                               "message": "Seattle",
-                               "title": "Seattle"
-                            },
-                            {
-                                "message": "London",
-                                "title": "London"
-                            },
-                            {
-                                "message": "Other",
-                                "title": "Other"
-                            }
-                         ],
-                       "contentType": "300"
-                    },
-                }
+           "richContent": [
+        [
+         {
+          "options": [
+         {
+           "link": "",
+            "image": {
+             "src": {
+                "rawUrl": ""
+                 }
+           },
+            "text": "Los Angeles"
+           },
+          {
+           "image": {
+             "src": {
+           "rawUrl": ""
+       }
+      },
+      "link": "",
+      "text": "Seattle"
+     },
+     {
+      "image": {
+       "src": {
+        "rawUrl": ""
+       }
+      },
+      "link": "",
+      "text": "London"
+     },
+     {
+      "text": "Other",
+      "link": "",
+      "image": {
+       "src": {
+        "rawUrl": ""
+       }
+      }
+     }
+    ],
+    "type": "chips"
+   }
+  ]
+ ]
+
+          
+          
+          
+          
+          
+          
+          
+          
+            
          }
         ],
         "outputContexts": user_context
