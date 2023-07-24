@@ -40,7 +40,7 @@ def webhook():
     if data['queryResult']['intent']['displayName'] == 'Welcome':
         resp = message_setter.setWelcomeMessage()
 
-    elif ((data['queryResult']['intent']['displayName'] == 'askThanks - yes') 
+    elif ((data['queryResult']['intent']['displayName'] == 'askThanks') 
             or
           (data['queryResult']['intent']['displayName'] == 'endOfConversation')
           ):
