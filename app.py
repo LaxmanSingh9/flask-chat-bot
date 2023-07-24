@@ -129,7 +129,7 @@ def storeDataIntoDBMySql(dic: dict):
         print("Error while inserting data mysql:", e)
     return "Data saved into DB"
     
-
+    
 def refine_data(user_data, session_id):
     print(f'data to be refine: {user_data}')
     refine_user_data = {
@@ -146,7 +146,7 @@ def refine_data(user_data, session_id):
         "equipments": ", ".join(user_data.get("Equipment.original", "")),
         "extra_capacity": user_data.get("CapacityType", ""),
         "timestamp": str(datetime.datetime.now()),
-        "session_id": session_id.replace("projects/mealticket-bdeo/agent/sessions/", "")
+        "session_id": session_id.replace("projects/mealticket-bdeo/agent/sessions/dfMessenger-", "")
     }
     print(f'data to push: {refine_user_data}')
     return refine_user_data
