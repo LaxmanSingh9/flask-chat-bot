@@ -137,77 +137,63 @@ def setWelcomeMessage():
      }
      return jsonify(response)
 
-
-
-def getRespOfAskCityName(resturant_name: str, user_context: dict):
-    msg = f"Great, it's {resturant_name}! In which city is your restaurant located?"
+def getRespOfAskCityName(restaurant_name: str, user_context: dict):
+    msg = f"Great, it's {restaurant_name}! In which city is your restaurant located?"
     response = {
         "fulfillmentMessages": [
-         {
-             "text": {
-                 "text": [msg]
-             }
-         },
-         {
-           "richContent": [
-        [
-         {
-          "options": [
-         {
-           "link": "",
-            "image": {
-             "src": {
-                "rawUrl": ""
-                 }
-           },
-            "text": "Los Angeles"
-           },
-          {
-           "image": {
-             "src": {
-           "rawUrl": ""
-       }
-      },
-      "link": "",
-      "text": "Seattle"
-     },
-     {
-      "image": {
-       "src": {
-        "rawUrl": ""
-       }
-      },
-      "link": "",
-      "text": "London"
-     },
-     {
-      "text": "Other",
-      "link": "",
-      "image": {
-       "src": {
-        "rawUrl": ""
-       }
-      }
-     }
-    ],
-    "type": "chips"
-   }
-  ]
- ]
-
-          
-          
-          
-          
-          
-          
-          
-          
-            
-         }
+            {
+                "text": {
+                    "text": [msg]
+                }
+            },
+            {
+                "payload": {
+                    "richContent": [
+                        [
+                            {
+                                "type": "chips",
+                                "options": [
+                                    {
+                                        "text": "Los Angeles",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Seattle",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "London",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Other",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    ]
+                }
+            }
         ],
         "outputContexts": user_context
-     }
+    }
     return response
 
 
