@@ -34,34 +34,52 @@ def getRespOfAskRoles(rest_name: str, user_context: dict):
              }
          },
          {
-             "payload": {
-                 "platform": "kommunicate",
-                 "message": "",
-                 "ignoreTextResponse": False,
-                 "metadata": {
-                     "templateId": "6",
-                     "payload": [
-                         {
-                             "message": "Manager",
-                             "title": "Manager"
-                         },
-                         {
-                             "title": "Owner",
-                             "message": "Owner"
-                         },
-                         {
-                             "message": "Staff",
-                             "title": "Staff"
-                         },
-                         {
-                             "title": "Other",
-                             "message": "Other"
-                         }
-                     ],
-                     "contentType": "300"
-                 }
-             }
-         }
+                "payload": {
+                    "richContent": [
+                        [
+                            {
+                                "type": "chips",
+                                "options": [
+                                    {
+                                        "text": "Manager",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Owner",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Staff",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Other",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    
+                            
+                                ]
+                            }
+                        ]
+                    ]
+                }
+            }
      ],
      "outputContexts": user_context
      }
@@ -79,35 +97,51 @@ def getRespOfAskEquimentResp(person_name:str, user_context: dict):
              }
          },
          {
-            "payload":
-                {
-                    "platform": "kommunicate",
-                    "message": "",
-                    "ignoreTextResponse": False,
-                    "metadata": {
-                       "templateId": "6",
-                       "payload": [
+                "payload": {
+                    "richContent": [
+                        [
                             {
-                             "message": "Freezer",
-                             "title": "Freezer"
-                            },
-                            {
-                             "title": "Fryer",
-                             "message": "Fryer"
-                            },
-                            {
-                             "title": "Oven",
-                             "message": "Oven"
-                            },
-                            {
-                             "title": "More than one",
-                             "message": "More than one"
+                                "type": "chips",
+                                "options": [
+                                    {
+                                        "text": "Manager",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Owner",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Staff",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Other",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    }
+                                ]
                             }
-                         ],
-                       "contentType": "300"
-                    },
-               }
-         }
+                        ]
+                    ]
+                }
+            }
+         
         ],
         "outputContexts": user_context
      }
@@ -208,30 +242,43 @@ def getRespOfAskAppFee(app_names: str, user_context: dict):
              }
          },
          {
-            "payload": {
-                    "platform": "kommunicate",
-                    "message": "",
-                    "ignoreTextResponse": False,
-                    "metadata": {
-                       "templateId": "6",
-                       "payload": [
+                "payload": {
+                    "richContent": [
+                        [
                             {
-                             "title": "above 1000 $",
-                             "message": "above 1000 $"
-                            },
-                            {
-                               "title": "above 2000 $",
-                               "message": "above 2000 $"
-                            },
-                            {
-                               "title": "above 3000 $",
-                               "message": "above 3000 $"
+                                "type": "chips",
+                                "options": [
+                                    {
+                                        "text": "above 1000 $",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "above 2000 $",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "above 3000 $",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    }
+                            
+                                ]
                             }
-                         ],
-                       "contentType": "300"
-                    },
+                        ]
+                    ]
                 }
-         }
+          }
         ],
         "outputContexts": user_context
      }
@@ -248,26 +295,35 @@ def getRespOfDefaultContext(user_context: dict):
              }
          },
          {
-            "payload": {
-                    "platform": "kommunicate",
-                    "message": "",
-                    "ignoreTextResponse": False,
-                    "metadata": {
-                       "templateId": "6",
-                       "payload": [
+                "payload": {
+                    "richContent": [
+                        [
                             {
-                             "title": "Restart",
-                             "message": "Restart"
-                            },
-                            {
-                               "title": "Quit",
-                               "message": "Quit"
+                                "type": "chips",
+                                "options": [
+                                    {
+                                        "text": "Restart",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Quit",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    }
+                            
+                                ]
                             }
-                         ],
-                       "contentType": "300"
-                    },
+                        ]
+                    ]
                 }
-         }
+            }
         ],
         "outputContexts": user_context
      }
@@ -284,38 +340,52 @@ def getRespOfAskCuisine(resturant_name: str, user_context: dict):
              }
          },
          {
-            "payload": {
-                    "platform": "kommunicate",
-                    "message": "",
-                    "ignoreTextResponse": False,
-                    "metadata": {
-                       "templateId": "6",
-                       "payload": [
-                               {
-                                 "title": "American",
-                                 "message": "American",
-                                 "color": "#FF0000"
-                               },
-                               {
-                                 "title": "Mexican",
-                                 "color": "#00FF00",
-                                 "message": "Mexican"
-                               },
-                               {
-                                 "title": "Italian",
-                                 "color": "#0000FF",
-                                 "message": "Italian"
-                               },
-                               {
-                                 "message": "Other",
-                                 "title": "Other",
-                                 "color": "#FFA500"
-                               }
-                         ],
-                       "contentType": "300"
-                    },
+                "payload": {
+                    "richContent": [
+                        [
+                            {
+                                "type": "chips",
+                                "options": [
+                                    {
+                                        "text": "American",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Mexican",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Italian",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "Other",
+                                        "image": {
+                                            "src": {
+                                                "rawUrl": ""
+                                            }
+                                        }
+                                    },
+                                    
+                            
+                                ]
+                            }
+                        ]
+                    ]
                 }
-         }
+            }
         ],
         "outputContexts": user_context
      }
