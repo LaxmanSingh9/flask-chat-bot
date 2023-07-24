@@ -104,7 +104,7 @@ def getRespOfAskEquimentResp(person_name:str, user_context: dict):
                                 "type": "chips",
                                 "options": [
                                     {
-                                        "text": "Manager",
+                                        "text": "Freezer",
                                         "image": {
                                             "src": {
                                                 "rawUrl": ""
@@ -112,7 +112,7 @@ def getRespOfAskEquimentResp(person_name:str, user_context: dict):
                                         }
                                     },
                                     {
-                                        "text": "Owner",
+                                        "text": "Fryer",
                                         "image": {
                                             "src": {
                                                 "rawUrl": ""
@@ -120,7 +120,7 @@ def getRespOfAskEquimentResp(person_name:str, user_context: dict):
                                         }
                                     },
                                     {
-                                        "text": "Staff",
+                                        "text": "Oven",
                                         "image": {
                                             "src": {
                                                 "rawUrl": ""
@@ -128,7 +128,7 @@ def getRespOfAskEquimentResp(person_name:str, user_context: dict):
                                         }
                                     },
                                     {
-                                        "text": "Other",
+                                        "text": "More than one",
                                         "image": {
                                             "src": {
                                                 "rawUrl": ""
