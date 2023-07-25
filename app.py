@@ -117,17 +117,17 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             database='MealTicket'
         )
         
-        data = (dic.get("session_id", "1"), dic.get("person_name", ""),
-                dic.get("person_role", ""), 
-                dic.get("restaurant_name", ""), 
-                dic.get("city", ""), 
-                dic.get("street_address", ""),
-                dic.get("cuisine_types", ""),
-                dic.get("resource_idle", ""), dic.get("other_apps", ""),
-                dic.get("app_costing", ""), dic.get("adding_sales_costing", ""),
-                dic.get("equipments", ""),
-                dic.get("timestamp", ""),
-                dic.get("extra_capacity", ""))
+        data = (dic.get("session_id", "1"), dic.get("person_name", " "),
+                dic.get("person_role", " "), 
+                dic.get("restaurant_name", " "), 
+                dic.get("city", " "), 
+                dic.get("street_address", " "),
+                dic.get("cuisine_types", " "),
+                dic.get("resource_idle", " " ), dic.get("other_apps", " "),
+                dic.get("app_costing", " "), dic.get("adding_sales_costing", " "),
+                dic.get("equipments", " "),
+                dic.get("timestamp", " "),
+                dic.get("extra_capacity", " "))
         if (insertion):
             cursor = cnx.cursor()
             # Define the insert query
