@@ -136,18 +136,22 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             cnx.commit()
         else:
             print("Inside the Updation")
-            cursor = cnx.cursor()
-            update_query = f"""UPDATE MealTicketUsers SET  
-                           person_name = {data[1]}, person_role = {data[2]}, 
-                           restaurant_name = {data[3]}, city = {data[4]}, 
-                           street_address = {data[5]}, cuisine_types = {data[6]}, 
-                           resource_idle = {data[7]}, other_apps = {data[8]},  
-                           app_costing = {data[9]}, adding_sales_costing = {data[10]}, 
-                           equipments = {data[11]}, dates = {data[12]},  
-                           extra_capacity = {data[13]} where session_id = {data[0]}
-                           """
+            update_query = """
+                            UPDATE MealTicketUsers SET
+                            person_name = %s, person_role = %s, 
+                            restaurant_name = %s, city = %s, 
+                            street_address = %s, cuisine_types = %s, 
+                            resource_idle = %s, other_apps = %s, 
+                            app_costing = %s, adding_sales_costing = %s, 
+                            equipments = %s, dates = %s, 
+                            extra_capacity = %s where session_id = %s
+                            """
+
+            # Replace None values with empty string
+            data = ['' if value is None else value for value in data]
+            
             print("Update Query=", update_query)
-            cursor.execute(update_query)
+            cursor.execute(update_query, data)
             cnx.commit()
     except Exception as e:
         print("Error while inserting data mysql:", e)
