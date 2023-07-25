@@ -35,10 +35,11 @@ def webhook():
     data = request.get_json()
     print(data)
     resp = ''
-    id_welcome_intent = False
+    is_db_insert = False
+    skip_db_operation = False
     if data['queryResult']['intent']['displayName'] == 'Welcome':
-        id_welcome_intent = True
         resp = message_setter.setWelcomeMessage()
+        skip_db_operation = True
        
     elif ((data['queryResult']['intent']['displayName'] == 'askThanks') 
             or
@@ -47,6 +48,7 @@ def webhook():
         print("Active Intent: askThanks Inside If")
        
     elif data['queryResult']['intent']['displayName'] == 'askResturantName':
+        is_db_insert = True
         resp = context_setter.setContextVariableAskResturantName(data)
      
     elif data['queryResult']['intent']['displayName'] == 'askRoles':
@@ -71,8 +73,8 @@ def webhook():
         response = make_response(resp)
     else:
         response = resp
-        
-    storeDataIntoDB(data, id_welcome_intent)      
+    if (not skip_db_operation):
+        storeDataIntoDB(data, is_db_insert)
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 
     # log_file.flush()
@@ -139,10 +141,9 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
                     equipments = %s, dates = %s,
                     extra_capacity = %s where session_id = %s
                     """
-        if (query):
-            cursor = cnx.cursor()
-            cursor.execute(query, data)
-            cnx.commit()
+        cursor = cnx.cursor()
+        cursor.execute(query, data)
+        cnx.commit()
             
     except Exception as e:
         print("Error while inserting data mysql:", e)
