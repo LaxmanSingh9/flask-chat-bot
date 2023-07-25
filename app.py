@@ -38,6 +38,7 @@ def webhook():
     print(data)
     resp = ''
     if data['queryResult']['intent']['displayName'] == 'Welcome':
+        storeDataIntoDBMySql(data)
         resp = message_setter.setWelcomeMessage()
 
     elif ((data['queryResult']['intent']['displayName'] == 'askThanks') 
@@ -48,24 +49,30 @@ def webhook():
         resp = storeDataIntoDB(data)
        
     elif data['queryResult']['intent']['displayName'] == 'askResturantName':
+        storeDataIntoDBMySql(data)
         resp = context_setter.setContextVariableAskResturantName(data)
      
     elif data['queryResult']['intent']['displayName'] == 'askRoles':
         resp = context_setter.setContextVariableRoles(data)
         
     elif data['queryResult']['intent']['displayName'] == 'askCityName':
+        storeDataIntoDBMySql(data)
         resp = context_setter.setContextVariableAskCityName(data)
 
     elif data['queryResult']['intent']['displayName'] == 'askEquimentType':
+        storeDataIntoDBMySql(data)
         resp = context_setter.setContextVariableEquimentType(data)
     
     elif data['queryResult']['intent']['displayName'] == 'askAppFee':
+        storeDataIntoDBMySql(data)
         resp = context_setter.setContextVariableAskAppFee(data)
         
     elif data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
+        storeDataIntoDBMySql(data)
         resp = context_setter.setContextDefault(data)
     
     elif data['queryResult']['intent']['displayName'] == 'askCuisine':
+        storeDataIntoDBMySql(data)
         resp = context_setter.setContextAskCuisine(data)
 
     if isinstance(resp, str):
