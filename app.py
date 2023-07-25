@@ -137,6 +137,7 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             cursor.execute(insert_query, data)
             cnx.commit()
         else:
+            print(type(data))
             update_query = f"""UPDATE MealTicketUsers SET 
                            person_name = {data.get("person_name")}, person_role= {data.get("person_role")}, 
                            restaurant_name = {data.get("restaurant_name")}, city={data.get("city")}, 
@@ -146,7 +147,7 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
                            equipments = {data.get("equipments")}, dates = {data.get("timestamp")}, 
                            extra_capacity = {data.get("extra_capacity")} where session_id = {data.get("session_id")}
                            """
-            print("Update Query=", update_query)               
+            print("Update Query=", update_query)   
             cursor.execute(update_query)
             cnx.commit()
     except Exception as e:
