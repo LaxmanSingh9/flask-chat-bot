@@ -33,11 +33,11 @@ def webhook_1():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.get_json()
-    # log_file = open('app.log', 'a')
-    # sys.stdout = log_file
     print(data)
     resp = ''
+    id_welcome_intent = False
     if data['queryResult']['intent']['displayName'] == 'Welcome':
+        id_welcome_intent = True
         resp = message_setter.setWelcomeMessage()
        
     elif ((data['queryResult']['intent']['displayName'] == 'askThanks') 
@@ -45,39 +45,34 @@ def webhook():
           (data['queryResult']['intent']['displayName'] == 'endOfConversation')
           ):
         print("Active Intent: askThanks Inside If")
-        resp = storeDataIntoDB(data, False)
        
     elif data['queryResult']['intent']['displayName'] == 'askResturantName':
         resp = context_setter.setContextVariableAskResturantName(data)
-        storeDataIntoDB(data, True)
      
     elif data['queryResult']['intent']['displayName'] == 'askRoles':
         resp = context_setter.setContextVariableRoles(data)
-        storeDataIntoDB(data, True)
         
     elif data['queryResult']['intent']['displayName'] == 'askCityName':
         resp = context_setter.setContextVariableAskCityName(data)
-        storeDataIntoDB(data, False)
-
+          
     elif data['queryResult']['intent']['displayName'] == 'askEquimentType':
         resp = context_setter.setContextVariableEquimentType(data)
-        storeDataIntoDB(data, False)
-    
+         
     elif data['queryResult']['intent']['displayName'] == 'askAppFee':
         resp = context_setter.setContextVariableAskAppFee(data)
-        storeDataIntoDB(data, False)
         
     elif data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
         resp = context_setter.setContextDefault(data)
         
     elif data['queryResult']['intent']['displayName'] == 'askCuisine':
         resp = context_setter.setContextAskCuisine(data)
-        storeDataIntoDB(data, False)
+         
     if isinstance(resp, str):
         response = make_response(resp)
     else:
         response = resp
-
+        
+    storeDataIntoDB(data, id_welcome_intent)      
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 
     # log_file.flush()
@@ -85,25 +80,22 @@ def webhook():
 
 
 def storeDataIntoDB(data: dict, insertion: bool):
-      print("Active Intent: askThanks ")
-      session_id = data["session"]
-      print("Data to store", data)
-      status = "Success"
-      try:
+    print("Inside the storeing data")
+    session_id = data["session"]
+    status = "Success"
+    try:
         user_context = data["queryResult"]["outputContexts"]
         for d in user_context:
-          context_name = d["name"]
-          if(context_name.find("session_data") != -1):
-              data = d["parameters"]
-              data_to_store = refine_data(data, session_id)
-              print("Data to store", data_to_store)
-              ref = db.reference('webhook_data')
-              ref.push(data_to_store)
-              storeDataIntoDBMySql(data_to_store, insertion)
-      except KeyError:
-         status = "Error"
-         print('Error while storing or getting the data')
-      return status + "in storing data"
+            context_name = d["name"]
+            if (context_name.find("session_data") != -1):
+                data = d["parameters"]
+                data_to_store = refine_data(data, session_id)
+                print("Data to store", data_to_store)
+                storeDataIntoDBMySql(data_to_store, insertion)
+    except KeyError:
+        status = "Error"
+        print('Error while storing or getting the data')
+    return status + "in storing data"
 
 
 def storeDataIntoDBMySql(dic: dict, insertion: bool):
@@ -127,30 +119,31 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
                 dic.get("equipments", ""), 
                 dic.get("timestamp", ""), 
                 dic.get("extra_capacity", ""), dic.get("session_id", "1"))
+        
+        query = ""
         if (insertion):
             print("Inside the Insersion")
-            cursor = cnx.cursor()
             # Define the insert query
-            insert_query = ("INSERT INTO MealTicketUsers"
-                            "(person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity, session_id)"
-                            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-            cursor.execute(insert_query, data)
-            cnx.commit()
+            query = ("INSERT INTO MealTicketUsers"
+                     "(person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity, session_id)"
+                     "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
         else:
             print("Inside the Updation")
+            query = """
+                    UPDATE MealTicketUsers SET
+                    person_name = %s, person_role = %s, 
+                    restaurant_name = %s, city = %s,
+                    street_address = %s, cuisine_types = %s, 
+                    resource_idle = %s, other_apps = %s,
+                    app_costing = %s, adding_sales_costing = %s,
+                    equipments = %s, dates = %s,
+                    extra_capacity = %s where session_id = %s
+                    """
+        if (query):
             cursor = cnx.cursor()
-            update_query = """
-                            UPDATE MealTicketUsers SET
-                            person_name = %s, person_role = %s, 
-                            restaurant_name = %s, city = %s,
-                            street_address = %s, cuisine_types = %s, 
-                            resource_idle = %s, other_apps = %s,
-                            app_costing = %s, adding_sales_costing = %s,
-                            equipments = %s, dates = %s,
-                            extra_capacity = %s where session_id = %s
-                            """
-            cursor.execute(update_query, data)
+            cursor.execute(query, data)
             cnx.commit()
+            
     except Exception as e:
         print("Error while inserting data mysql:", e)
     return "Data saved into DB"
