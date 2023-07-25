@@ -38,8 +38,8 @@ def webhook():
     print(data)
     resp = ''
     if data['queryResult']['intent']['displayName'] == 'Welcome':
-        storeDataIntoDB(data, True)
         resp = message_setter.setWelcomeMessage()
+        storeDataIntoDB(data, True)
 
     elif ((data['queryResult']['intent']['displayName'] == 'askThanks') 
             or
@@ -129,6 +129,7 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
                 dic.get("timestamp", " "),
                 dic.get("extra_capacity", " "))
         if (insertion):
+            print("Inside the Insersion")
             cursor = cnx.cursor()
             # Define the insert query
             insert_query = ("INSERT INTO MealTicketUsers"
@@ -137,7 +138,7 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             cursor.execute(insert_query, data)
             cnx.commit()
         else:
-            print(type(data))
+            print("Inside the Updation")
             cursor = cnx.cursor()
             update_query = f"""UPDATE MealTicketUsers SET  
                            person_name = {data[1]}, person_role= {data[2]}, 
