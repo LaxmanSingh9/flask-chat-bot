@@ -136,6 +136,7 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             cnx.commit()
         else:
             print("Inside the Updation")
+            cursor = cnx.cursor()
             update_query = """
                             UPDATE MealTicketUsers SET
                             person_name = %s, person_role = %s, 
