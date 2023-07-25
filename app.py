@@ -39,8 +39,7 @@ def webhook():
     resp = ''
     if data['queryResult']['intent']['displayName'] == 'Welcome':
         resp = message_setter.setWelcomeMessage()
-        storeDataIntoDB(data, True)
-
+       
     elif ((data['queryResult']['intent']['displayName'] == 'askThanks') 
             or
           (data['queryResult']['intent']['displayName'] == 'endOfConversation')
@@ -49,7 +48,7 @@ def webhook():
         resp = storeDataIntoDB(data, False)
        
     elif data['queryResult']['intent']['displayName'] == 'askResturantName':
-        storeDataIntoDB(data, False)
+        storeDataIntoDB(data, True)
         resp = context_setter.setContextVariableAskResturantName(data)
      
     elif data['queryResult']['intent']['displayName'] == 'askRoles':
@@ -64,15 +63,12 @@ def webhook():
         resp = context_setter.setContextVariableEquimentType(data)
     
     elif data['queryResult']['intent']['displayName'] == 'askAppFee':
-        storeDataIntoDB(data, False)
         resp = context_setter.setContextVariableAskAppFee(data)
         
     elif data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
-        storeDataIntoDB(data, False)
         resp = context_setter.setContextDefault(data)
     
     elif data['queryResult']['intent']['displayName'] == 'askCuisine':
-        storeDataIntoDB(data, False)
         resp = context_setter.setContextAskCuisine(data)
 
     if isinstance(resp, str):
@@ -89,6 +85,7 @@ def webhook():
 def storeDataIntoDB(data: dict, insertion: bool):
       print("Active Intent: askThanks ")
       session_id = data["session"]
+      print("Data to store", data)
       status = "Success"
       try:
         user_context = data["queryResult"]["outputContexts"]
