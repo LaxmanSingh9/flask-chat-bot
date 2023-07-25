@@ -138,10 +138,11 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             cnx.commit()
         else:
             print(type(data))
+            cursor = cnx.cursor()
             update_query = f"""UPDATE MealTicketUsers SET  
                            person_name = {data[1]}, person_role= {data[2]},
                            restaurant_name = {data[3]}, city={data[4]},
-                           street_address = {data[5]} cuisine_types = {data[6]},
+                           street_address = {data[5]} cuisine_types = {data[6]}, 
                            resource_idle={data[7]}, other_apps = {data[8]},
                            app_costing = {data[9]}, adding_sales_costing = {data[10]},
                            equipments = {data[11]}, dates = {data[12]}, 
