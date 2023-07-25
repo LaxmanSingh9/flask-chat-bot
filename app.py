@@ -38,7 +38,7 @@ def webhook():
     print(data)
     resp = ''
     if data['queryResult']['intent']['displayName'] == 'Welcome':
-        storeDataIntoDBMySql(data)
+        storeDataIntoDBMySql(data, True)
         resp = message_setter.setWelcomeMessage()
 
     elif ((data['queryResult']['intent']['displayName'] == 'askThanks') 
@@ -46,33 +46,33 @@ def webhook():
           (data['queryResult']['intent']['displayName'] == 'endOfConversation')
           ):
         print("Active Intent: askThanks Inside If")
-        resp = storeDataIntoDB(data)
+        resp = storeDataIntoDB(data, False)
        
     elif data['queryResult']['intent']['displayName'] == 'askResturantName':
-        storeDataIntoDBMySql(data)
+        storeDataIntoDBMySql(data, False)
         resp = context_setter.setContextVariableAskResturantName(data)
      
     elif data['queryResult']['intent']['displayName'] == 'askRoles':
         resp = context_setter.setContextVariableRoles(data)
         
     elif data['queryResult']['intent']['displayName'] == 'askCityName':
-        storeDataIntoDBMySql(data)
+        storeDataIntoDBMySql(data, False)
         resp = context_setter.setContextVariableAskCityName(data)
 
     elif data['queryResult']['intent']['displayName'] == 'askEquimentType':
-        storeDataIntoDBMySql(data)
+        storeDataIntoDBMySql(data, False)
         resp = context_setter.setContextVariableEquimentType(data)
     
     elif data['queryResult']['intent']['displayName'] == 'askAppFee':
-        storeDataIntoDBMySql(data)
+        storeDataIntoDBMySql(data, False)
         resp = context_setter.setContextVariableAskAppFee(data)
         
     elif data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
-        storeDataIntoDBMySql(data)
+        storeDataIntoDBMySql(data, False)
         resp = context_setter.setContextDefault(data)
     
     elif data['queryResult']['intent']['displayName'] == 'askCuisine':
-        storeDataIntoDBMySql(data)
+        storeDataIntoDBMySql(data, False)
         resp = context_setter.setContextAskCuisine(data)
 
     if isinstance(resp, str):
@@ -107,7 +107,7 @@ def storeDataIntoDB(data: dict):
       return status + "in storing data"
 
 
-def storeDataIntoDBMySql(dic: dict):
+def storeDataIntoDBMySql(dic: dict, insertion: bool):
     print("Inside Saving into MySql")
     try:
         cnx = mysql.connector.connect(
@@ -116,11 +116,7 @@ def storeDataIntoDBMySql(dic: dict):
             host='meal-ticket.cqycsjh1wnuy.us-east-1.rds.amazonaws.com',
             database='MealTicket'
         )
-        cursor = cnx.cursor()
-        # Define the insert query
-        insert_query = ("INSERT INTO MealTicketUsers"
-                        "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity)"
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        
         data = (dic.get("session_id", "1"), dic.get("person_name", ""),
                 dic.get("person_role", ""), 
                 dic.get("restaurant_name", ""), 
@@ -132,8 +128,27 @@ def storeDataIntoDBMySql(dic: dict):
                 dic.get("equipments", ""),
                 dic.get("timestamp", ""),
                 dic.get("extra_capacity", ""))
-        cursor.execute(insert_query, data)
-        cnx.commit()
+        if (insertion):
+            cursor = cnx.cursor()
+            # Define the insert query
+            insert_query = ("INSERT INTO MealTicketUsers"
+                            "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity)"
+                            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+            cursor.execute(insert_query, data)
+            cnx.commit()
+        else:
+            update_query = f"""UPDATE MealTicketUsers SET 
+                           person_name = {data.get("person_name")}, person_role= {data.get("person_role")}, 
+                           restaurant_name = {data.get("restaurant_name")}, city={data.get("city")}, 
+                           street_address = {data.get("street_address")} cuisine_types = {data.get("cuisine_types")}, 
+                           resource_idle={data.get("resource_idle")}, other_apps = {data.get("other_apps")}, 
+                           app_costing = {data.get("app_costing")}, adding_sales_costing = {data.get("adding_sales_costing")}, 
+                           equipments = {data.get("equipments")}, dates = {data.get("timestamp")}, 
+                           extra_capacity = {data.get("extra_capacity")} where session_id = {data.get("session_id")}
+                           """
+            print("Update Query=", update_query)               
+            cursor.execute(update_query)
+            cnx.commit()
     except Exception as e:
         print("Error while inserting data mysql:", e)
     return "Data saved into DB"
