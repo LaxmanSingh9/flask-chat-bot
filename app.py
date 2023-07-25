@@ -147,7 +147,8 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
                             equipments = %s, dates = %s,
                             extra_capacity = %s where session_id = %s
                             """
-            print("Update Query=", update_query)
+            final_query = cursor.mogrify(update_query, data).decode()
+            print("Final Query =", final_query)
             cursor.execute(update_query, data)
             cnx.commit()
     except Exception as e:
