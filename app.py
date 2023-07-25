@@ -114,16 +114,16 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             database='MealTicket'
         )
         
-        data = (dic.get("session_id", "1"), dic.get("person_name", " "),
+        data = (dic.get("session_id", "1"), dic.get("person_name", " "), 
                 dic.get("person_role", " "), 
                 dic.get("restaurant_name", " "), 
                 dic.get("city", " "), 
-                dic.get("street_address", " "),
-                dic.get("cuisine_types", " "),
-                dic.get("resource_idle", " " ), dic.get("other_apps", " "),
-                dic.get("app_costing", " "), dic.get("adding_sales_costing", " "),
-                dic.get("equipments", " "),
-                dic.get("timestamp", " "),
+                dic.get("street_address", " "), 
+                dic.get("cuisine_types", " "), 
+                dic.get("resource_idle", " " ), dic.get("other_apps", " "), 
+                dic.get("app_costing", " "), dic.get("adding_sales_costing", " "), 
+                dic.get("equipments", " "), 
+                dic.get("timestamp", " "), 
                 dic.get("extra_capacity", " "))
         if (insertion):
             print("Inside the Insersion")
@@ -138,12 +138,12 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             print("Inside the Updation")
             cursor = cnx.cursor()
             update_query = f"""UPDATE MealTicketUsers SET  
-                           person_name = {data[1]}, person_role= {data[2]}, 
-                           restaurant_name = {data[3]}, city={data[4]}, 
+                           person_name = {data[1]}, person_role = {data[2]}, 
+                           restaurant_name = {data[3]}, city = {data[4]}, 
                            street_address = {data[5]}, cuisine_types = {data[6]}, 
-                           resource_idle={data[7]}, other_apps = {data[8]},
-                           app_costing = {data[9]}, adding_sales_costing = {data[10]},
-                           equipments = {data[11]}, dates = {data[12]}, 
+                           resource_idle = {data[7]}, other_apps = {data[8]},  
+                           app_costing = {data[9]}, adding_sales_costing = {data[10]}, 
+                           equipments = {data[11]}, dates = {data[12]},  
                            extra_capacity = {data[13]} where session_id = {data[0]}
                            """
             print("Update Query=", update_query)
