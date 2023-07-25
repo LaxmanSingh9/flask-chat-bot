@@ -114,23 +114,23 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             database='MealTicket'
         )
         
-        data = (dic.get("session_id", "1"), dic.get("person_name", " "), 
-                dic.get("person_role", " "), 
-                dic.get("restaurant_name", " "), 
-                dic.get("city", " "), 
-                dic.get("street_address", " "), 
-                dic.get("cuisine_types", " "), 
-                dic.get("resource_idle", " " ), dic.get("other_apps", " "), 
-                dic.get("app_costing", " "), dic.get("adding_sales_costing", " "), 
-                dic.get("equipments", " "), 
-                dic.get("timestamp", " "), 
-                dic.get("extra_capacity", " "))
+        data = (dic.get("person_name", ""), 
+                dic.get("person_role", ""), 
+                dic.get("restaurant_name", ""), 
+                dic.get("city", ""), 
+                dic.get("street_address", ""), 
+                dic.get("cuisine_types", ""), 
+                dic.get("resource_idle", ""), dic.get("other_apps", ""), 
+                dic.get("app_costing", ""), dic.get("adding_sales_costing", ""), 
+                dic.get("equipments", ""), 
+                dic.get("timestamp", ""), 
+                dic.get("extra_capacity", ""), dic.get("session_id", "1"))
         if (insertion):
             print("Inside the Insersion")
             cursor = cnx.cursor()
             # Define the insert query
             insert_query = ("INSERT INTO MealTicketUsers"
-                            "(session_id, person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity)"
+                            "(person_name, person_role, restaurant_name, city, street_address, cuisine_types, resource_idle, other_apps, app_costing, adding_sales_costing, equipments, dates, extra_capacity, session_id)"
                             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             cursor.execute(insert_query, data)
             cnx.commit()
@@ -140,17 +140,13 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
             update_query = """
                             UPDATE MealTicketUsers SET
                             person_name = %s, person_role = %s, 
-                            restaurant_name = %s, city = %s, 
+                            restaurant_name = %s, city = %s,
                             street_address = %s, cuisine_types = %s, 
-                            resource_idle = %s, other_apps = %s, 
-                            app_costing = %s, adding_sales_costing = %s, 
-                            equipments = %s, dates = %s, 
+                            resource_idle = %s, other_apps = %s,
+                            app_costing = %s, adding_sales_costing = %s,
+                            equipments = %s, dates = %s,
                             extra_capacity = %s where session_id = %s
                             """
-
-            # Replace None values with empty string
-            data = ['' if value is None else value for value in data]
-            
             print("Update Query=", update_query)
             cursor.execute(update_query, data)
             cnx.commit()
