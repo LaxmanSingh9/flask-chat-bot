@@ -48,29 +48,31 @@ def webhook():
         resp = storeDataIntoDB(data, False)
        
     elif data['queryResult']['intent']['displayName'] == 'askResturantName':
-        storeDataIntoDB(data, True)
         resp = context_setter.setContextVariableAskResturantName(data)
+        storeDataIntoDB(data, True)
      
     elif data['queryResult']['intent']['displayName'] == 'askRoles':
         resp = context_setter.setContextVariableRoles(data)
+        storeDataIntoDB(data, True)
         
     elif data['queryResult']['intent']['displayName'] == 'askCityName':
-        storeDataIntoDB(data, False)
         resp = context_setter.setContextVariableAskCityName(data)
+        storeDataIntoDB(data, False)
 
     elif data['queryResult']['intent']['displayName'] == 'askEquimentType':
-        storeDataIntoDB(data, False)
         resp = context_setter.setContextVariableEquimentType(data)
+        storeDataIntoDB(data, False)
     
     elif data['queryResult']['intent']['displayName'] == 'askAppFee':
         resp = context_setter.setContextVariableAskAppFee(data)
+        storeDataIntoDB(data, False)
         
     elif data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
         resp = context_setter.setContextDefault(data)
-    
+        
     elif data['queryResult']['intent']['displayName'] == 'askCuisine':
         resp = context_setter.setContextAskCuisine(data)
-
+        storeDataIntoDB(data, False)
     if isinstance(resp, str):
         response = make_response(resp)
     else:
@@ -147,7 +149,6 @@ def storeDataIntoDBMySql(dic: dict, insertion: bool):
                             equipments = %s, dates = %s,
                             extra_capacity = %s where session_id = %s
                             """
-            final_query = cursor.mogrify(update_query, data).decode()
             print("Final Query =", final_query)
             cursor.execute(update_query, data)
             cnx.commit()
