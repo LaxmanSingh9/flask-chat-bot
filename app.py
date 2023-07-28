@@ -64,6 +64,7 @@ def webhook():
         resp = context_setter.setContextVariableAskAppFee(data)
         
     elif data['queryResult']['intent']['displayName'] == 'Default Fallback Intent':
+        skip_db_operation = True
         resp = context_setter.setContextDefault(data)
         
     elif data['queryResult']['intent']['displayName'] == 'askCuisine':
